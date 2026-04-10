@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill History - ServeSewa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <style>
+        body {
+            background: #0f172a;
+            font-family: 'Inter', sans-serif;
+            color: #f1f5f9;
+            margin: 0;
+            padding: 40px;
+        }
+        .history-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5);
+        }
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+        }
+        h2 { font-weight: 800; color: #2e7d32; font-size: 1.8rem; }
+        .history-table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; background: rgba(255, 255, 255, 0.03); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; }
+        td { padding: 18px 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.95rem; }
+        tr:hover { background: rgba(255, 255, 255, 0.02); }
+        .status-badge { background: rgba(34, 197, 94, 0.1); color: #22c55e; padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.75rem; border: 1px solid rgba(34, 197, 94, 0.2); }
+        .btn-back { text-decoration: none; color: white; background: #2e7d32; padding: 12px 24px; border-radius: 12px; font-weight: 700; transition: 0.3s; }
+        .btn-back:hover { transform: translateX(-5px); box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3); }
+    </style>
+</head>
+<body>
+    <div class="history-container">
+        <div class="history-header">
+            <h2>📜 Invoice History (सहेजे गए बिल)</h2>
+            <a href="{{ url_for('index') }}" class="btn-back">← Back to Dashboard</a>
+        </div>
+        
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Invoice No</th>
+                    <th>Customer Name</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices %}
+                <tr>
+                    <td>#{{ invoice.invoice_no }}</td>
+                    <td>{{ invoice.customer_name }}</td>
+                    <td>{{ invoice.date }}</td>
+                    <td>₹{{ invoice.total_amount }}</td>
+                    <td><span class="status-badge">Saved</span></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 50px; opacity: 0.5;">No saved invoices found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

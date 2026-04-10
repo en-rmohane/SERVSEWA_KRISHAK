@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServeSewa Elite - 100% Fidelity</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Dashboard -->
+        <aside class="dashboard">
+            <h1>🌾 ServeSewa Pro</h1>
+
+            <div class="form-section">
+                <p class="section-title">Invoice Information</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="input-group">
+                        <label>इन्वाइज क्रमांक (Inv. No)</label>
+                        <input type="text" id="in_invoice_no" placeholder="052" oninput="updatePreview()">
+                    </div>
+                    <div class="input-group">
+                        <label>दिनांक (Date)</label>
+                        <input type="date" id="in_date" oninput="updatePreview()">
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="input-group">
+                        <label>क्रेता आदेश सं. (Order No)</label>
+                        <input type="text" id="in_order_no" oninput="updatePreview()">
+                    </div>
+                    <div class="input-group">
+                        <label>दिनांक (Order Date)</label>
+                        <input type="date" id="in_order_date" oninput="updatePreview()">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>वाहन सं. (Vehicle No)</label>
+                    <input type="text" id="in_vehicle" placeholder="MH40 AK 1420" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>स्थान (Place)</label>
+                    <input type="text" id="in_place" placeholder="ससुन्द्रा" oninput="updatePreview()">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <p class="section-title">Buyer / Customer</p>
+                <div class="input-group">
+                    <label>क्रेता का नाम एवं पता (Buyer Name & Address)</label>
+                    <textarea id="in_buyer" rows="4" placeholder="Name and Address"
+                        oninput="updatePreview()"></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <p class="section-title">Items Management</p>
+                <div id="items-container">
+                    <!-- Dynamic Rows -->
+                </div>
+                <button onclick="addItem()"
+                    style="width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px;">+
+                    Add Item Row</button>
+            </div>
+        </aside>
+
+        <!-- Preview Area -->
+        <main class="preview-container">
+            <nav class="top-nav">
+                <a href="{{ url_for('history') }}" class="nav-link">📜 History</a>
+                <a href="{{ url_for('logout') }}" class="nav-link logout">🔒 Logout</a>
+            </nav>
+
+            <div id="invoice-capture">
+                <!-- Top Info Section (Row 1) -->
+                <div class="header-row-one">
+                    <div class="meta-left-top">
+                        CIN - U01114MP2020PTC053054<br>
+                        D.D.A Lic. No. RS/447/1403/136/2020<br>
+                        GSTIN: 23ABECS5550P1ZY<br>
+                        <img src="{{ url_for('static', filename='img/logo_v2.png') }}" class="logo-under-gstin" alt="Logo">
+                    </div>
+
+                    <div class="header-center-badge">
+                        इन्वाइज/नगद पत्रक
+                    </div>
+
+                    <div class="meta-right-top" style="text-align:right;">
+                        अच्छी पैदावार<br>
+                        Mob. 8878680877<br>
+                        Email: sskpcls@gmail.com
+                    </div>
+                </div>
+
+                <!-- Company Identity (Row 2) -->
+                <div class="header-row-two">
+                    <h1 class="main-title-premium">सर्वसेवा कृषक प्रोड्यूसर कंपनी लिमिटेड</h1>
+                    <p class="address-text-premium">ग्राम ससुन्द्रा, तह-आमला, जिला-बैतूल (म.प्र.) 460557</p>
+                </div>
+
+                <!-- Buyer + Invoice (Perfect Meta Logic) -->
+                <div class="meta-container-pro">
+                    <div class="buyer-box-pro">
+                        <strong>क्रेता:</strong><br>
+                        <span id="pr_buyer" style="white-space: pre-wrap;"></span>
+                    </div>
+
+                    <div class="invoice-box-pro">
+                        <div class="meta-row-pro"><span>इन्वाइज क्रमांक:</span> <strong id="pr_invoice_no" style="color:red;"></strong></div>
+                        <div class="meta-row-pro"><span>दिनांक:</span> <span id="pr_date"></span></div>
+                    </div>
+                </div>
+
+                <!-- Order + Vehicle -->
+                <div class="meta-container-pro row-two">
+                    <div class="meta-col-pro"><strong>क्रेता आदेश क्रमांक:</strong> <span id="pr_order_no"></span></div>
+                    <div class="meta-col-pro"><strong>दिनांक:</strong> <span id="pr_order_date"></span></div>
+                    <div class="meta-col-pro"><strong>किसके द्वारा (वाहन):</strong> <span id="pr_vehicle" style="color: blue;"></span></div>
+                    <div class="meta-col-pro"><strong>स्थान:</strong> <span id="pr_place"></span></div>
+                </div>
+
+                <!-- Table -->
+                <table class="items-table-pro">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%; text-align: left;">विवरण (Description)</th>
+                            <th style="width: 15%;">मात्रा (Qty)</th>
+                            <th style="width: 12%;">दर (Rate)</th>
+                            <th style="width: 10%;">प्रति</th>
+                            <th style="width: 13%;">कीमत (Total)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pr_items_body">
+                        <!-- Items -->
+                    </tbody>
+                </table>
+
+                <!-- Totals -->
+                <div class="totals-section-pro">
+                    <div class="words-pro">
+                        <strong>रुपये (शब्दों में):</strong><br>
+                        <span id="pr_amount_words" style="color: blue; font-weight: bold;"></span>
+                    </div>
+                    <div class="figures-pro">
+                        <div style="font-size: 8pt;">कुल कीमत रुपये</div>
+                        <span id="pr_total_amount" style="font-size: 16pt;"></span>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer-pro">
+                    <div class="bank-pro">
+                        Axis Bank Betul<br>
+                        A/c No. 920020066020421 | IFSC: UTIB0001350<br>
+                        <small>नोट - विक्रय एवं कृषि मंडी से मुक्त है।</small>
+                    </div>
+                    <div class="sign-pro">
+                        <div style="font-size: 9pt;">वास्ते: सर्वसेवा कृषक प्रोड्यूसर कंपनी लिमिटेड</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-dl-final" onclick="downloadPDF()">
+                🚀 Generate & Save Final Bill
+            </button>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
