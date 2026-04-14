@@ -6,8 +6,8 @@ from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "static" / "img" / "signature.jpg"
-DST = ROOT / "static" / "img" / "signature.png"
+SRC = ROOT / "static" / "img" / "stamp_signature.jpg"
+DST = ROOT / "static" / "img" / "stamp_signature.png"
 
 
 def _compute_alpha(r: int, g: int, b: int) -> int:

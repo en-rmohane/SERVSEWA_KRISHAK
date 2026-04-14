@@ -8,6 +8,10 @@ function addItem() {
             <input type="text" class="item-desc" placeholder="गेहूं (Wheat)" oninput="updatePreview()">
         </div>
         <div class="input-group">
+            <label>HSN/SAC</label>
+            <input type="text" class="item-hsn" placeholder="1001" oninput="updatePreview()">
+        </div>
+        <div class="input-group">
             <label>मात्रा</label>
             <input type="number" step="0.01" class="item-qty" placeholder="0" oninput="updatePreview()">
         </div>
@@ -53,6 +57,7 @@ function updatePreview() {
 
     rows.forEach(row => {
         const desc = row.querySelector('.item-desc').value;
+        const hsn = row.querySelector('.item-hsn').value;
         const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
         const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
         const per = row.querySelector('.item-per').value;
@@ -62,6 +67,7 @@ function updatePreview() {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${desc}</td>
+            <td>${hsn}</td>
             <td>${qty.toFixed(2)}</td>
             <td>${rate}</td>
             <td>${per}</td>
@@ -73,7 +79,7 @@ function updatePreview() {
     // Fill empty rows to maintain layout (if less than 5 items)
     for (let i = rows.length; i < 5; i++) {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>&nbsp;</td><td></td><td></td><td></td><td></td>`;
+        tr.innerHTML = `<td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td>`;
         tableBody.appendChild(tr);
     }
 

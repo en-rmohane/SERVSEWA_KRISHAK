@@ -221,32 +221,12 @@ input, textarea, select {
     padding: 0 6px;
 }
 
-.signature-img {
-    height: 46px;
+.stamp-signature-img {
+    height: 110px;
     width: auto;
     object-fit: contain;
-    /* html2pdf/html2canvas doesn't reliably honor blend-modes; keep it simple */
-    filter: contrast(1.2);
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2; /* signature on top of seal */
-}
-
-.seal-img {
-    position: absolute;
-    height: 68px;
-    width: auto;
-    object-fit: contain;
-    opacity: 0.75;
-    z-index: 1; /* seal below signature */
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(-6deg);
-    pointer-events: none;
-    /* try to reduce background tint for scanned seal images */
-    filter: grayscale(1) contrast(1.6) brightness(1.2);
+    transform: rotate(-2deg);
+    filter: contrast(1.1) brightness(1.02);
 }
 
 .declaration-pro {
