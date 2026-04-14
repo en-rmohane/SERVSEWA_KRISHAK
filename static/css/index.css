@@ -205,8 +205,41 @@ input, textarea, select {
 }
 
 .bank-pro { font-size: 10pt; flex: 1.5; }
-.sign-pro { text-align: center; width: 260px; font-weight: 800; }
-.sign-line-pro { margin-top: 40px; border-top: 1px dotted #000; padding-top: 5px; }
+.sign-pro { text-align: center; width: 280px; font-weight: 800; position: relative; }
+.sign-line-pro { border-top: 1px dotted #000; padding-top: 5px; font-size: 9pt; margin-top: 5px; }
+
+/* Signature & Seal Container */
+.sign-images-container {
+    position: relative;
+    height: 80px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signature-img {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+    filter: contrast(1.5) brightness(1.1);
+    mix-blend-mode: multiply; /* Removes white background */
+    position: relative;
+    z-index: 1;
+}
+
+.seal-img {
+    position: absolute;
+    height: 70px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.75;
+    mix-blend-mode: multiply; /* Makes it look like a real stamp */
+    right: -15px;
+    top: 5px;
+    z-index: 2;
+    transform: rotate(-8deg);
+}
 
 .declaration-pro {
     margin-top: 10px;
