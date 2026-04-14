@@ -54,6 +54,10 @@
                     <textarea id="in_buyer" rows="4" placeholder="Name and Address"
                         oninput="updatePreview()"></textarea>
                 </div>
+                <div class="input-group">
+                    <label>क्रेता का GSTIN (Buyer GSTIN)</label>
+                    <input type="text" id="in_buyer_gstin" placeholder="Optional" oninput="updatePreview()">
+                </div>
             </div>
 
             <div class="form-section">
@@ -105,7 +109,10 @@
                 <div class="meta-container-pro">
                     <div class="buyer-box-pro">
                         <strong>क्रेता:</strong><br>
-                        <span id="pr_buyer" style="white-space: pre-wrap;"></span>
+                        <span id="pr_buyer" style="white-space: pre-wrap;"></span><br>
+                        <span id="pr_buyer_gstin_block" style="display: none;">
+                            <strong>GSTIN:</strong> <span id="pr_buyer_gstin"></span>
+                        </span>
                     </div>
 
                     <div class="invoice-box-pro">

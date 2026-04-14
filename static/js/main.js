@@ -47,6 +47,15 @@ function updatePreview() {
     document.getElementById('pr_vehicle').innerText = document.getElementById('in_vehicle').value || '---';
     document.getElementById('pr_place').innerText = document.getElementById('in_place').value || '---';
     document.getElementById('pr_buyer').innerText = document.getElementById('in_buyer').value || '';
+    
+    const gstin = document.getElementById('in_buyer_gstin').value;
+    const gstinBlock = document.getElementById('pr_buyer_gstin_block');
+    if (gstin) {
+        gstinBlock.style.display = 'inline';
+        document.getElementById('pr_buyer_gstin').innerText = gstin;
+    } else {
+        gstinBlock.style.display = 'none';
+    }
 
     // Items
     const rows = document.querySelectorAll('.item-row-input');
